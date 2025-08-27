@@ -17,11 +17,11 @@ setup(
     name="mbodivision-client",
     version="1.0.0",
     author="MbodiVision",
-    author_email="info@example.com",
+    author_email="vivekchandra.1324@gmail.com",
     description="A Python client for interacting with the MbodiVision computer vision API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/mbodivision/mbodivision-client",
+    url="https://github.com/VivekChandra1324/mbodivision-client.git",
     packages=find_packages(include=["client*"]),
 
     python_requires=">=3.8",
