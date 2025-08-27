@@ -28,7 +28,7 @@ dev = [
     "flake8>=6.0.0",
 ]
 
-[project.urls
+[project.urls]
 Repository = "https://github.com/VivekChandra1324/mbodivision-client.git"
 
 [tool.setuptools.packages.find]
