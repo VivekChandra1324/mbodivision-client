@@ -23,21 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mbodivision/mbodivision-client",
     packages=find_packages(include=["client*"]),
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Intended Audience :: Developers",
-        "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence",
-        "Topic :: Scientific/Engineering :: Image Processing",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-    ],
+
     python_requires=">=3.8",
     install_requires=requirements,
     extras_require={
@@ -50,11 +36,8 @@ setup(
             "flake8>=6.0.0",
         ],
     },
-    keywords="computer vision, yolo, object detection, api client, httpx",
+    
     project_urls={
-        "Homepage": "https://github.com/mbodivision/mbodivision-client",
-        "Documentation": "https://github.com/mbodivision/mbodivision-client#readme",
-        "Repository": "https://github.com/mbodivision/mbodivision-client.git",
-        "Issues": "https://github.com/mbodivision/mbodivision-client/issues",
+        "Repository": "https://github.com/VivekChandra1324/mbodivision-client.git",
     },
 )
