@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MbodiVision - Object Detection</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+                sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .navbar {
+            background-color: #2c3e50;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar a {
+            float: left;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .navbar a:hover {
+            background-color: #34495e;
+        }
+        .navbar a.active {
+            background-color: #16a085;
+        }
+        h1,
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .controls-panel {
+            flex: 1;
+            min-width: 350px;
+        }
+        .results-panel {
+            flex: 2;
+            min-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        input[type="file"],
+        input[type="range"] {
+            width: 100%;
+        }
+        button {
+            background-color: #16a085;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #1abc9c;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .image-preview,
+        .result-image {
+            max-width: 100%;
+            height: auto;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: none;
+        }
+        .result-image {
+            border-style: solid;
+            display: block;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .results-table th {
+            background-color: #34495e;
+            color: white;
+        }
+        .confidence-bar-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        .confidence-bar {
+            height: 10px;
+            background-color: #28a745;
+            border-radius: 4px;
+        }
+        .loading {
+            display: none;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #16a085;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .message {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            border-left: 5px solid;
+            display: none;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #dc3545;
+        }
+
+        /* Bounding box overlays */
+        #resultImageContainer {
+            position: relative;
+            display: inline-block;
+        }
+        .bounding-box-label {
+            position: absolute;
+            background: rgba(22, 160, 133, 0.7);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .bounding-box {
+            position: absolute;
+            border: 2px solid #16a085;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Upload Data</a>
+        <a href="/inference" class="active">Object Detection</a>
+    </div>
+
+    <h1>Object Detection</h1>
+
+    <div class="main-container">
+        <div class="controls-panel panel">
+            <h2>Controls</h2>
+            <form id="inferenceForm">
+                <div class="form-group">
+                    <label for="image">Upload Image</label>
+                    <input type="file" id="image" name="image" accept="image/png,image/jpeg" required />
+                </div>
+                <div class="form-group">
+                    <label for="conf"
+                        >Confidence Threshold: <span id="confValue">0.3</span></label
+                    >
+                    <input
+                        type="range"
+                        id="conf"
+                        name="conf"
+                        min="0.1"
+                        max="0.9"
+                        step="0.05"
+                        value="0.3"
+                    />
+                </div>
+                <button type="submit" id="detectButton">Detect Objects</button>
+            </form>
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <span>Processing...</span>
+            </div>
+            <div id="errorMessage" class="message error"></div>
+            <img id="imagePreview" class="image-preview" alt="Image preview" />
+        </div>
+
+        <div class="results-panel panel" id="resultsPanel" style="display: none">
+            <h2>Results</h2>
+            <p>
+                <strong>Model Used:</strong> <span id="modelName"></span>
+            </p>
+            <div id="resultImageContainer">
+                <img
+                    id="resultImage"
+                    class="result-image"
+                    alt="Detection results"
+                />
+            </div>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Confidence</th>
+                        <th>Coordinates (Normalized)</th>
+                    </tr>
+                </thead>
+                <tbody id="detectionsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // DOM Element References
+        const inferenceForm = document.getElementById("inferenceForm");
+        const imageInput = document.getElementById("image");
+        const confSlider = document.getElementById("conf");
+        const confValue = document.getElementById("confValue");
+        const detectButton = document.getElementById("detectButton");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const imagePreview = document.getElementById("imagePreview");
+        const resultsPanel = document.getElementById("resultsPanel");
+        const modelNameSpan = document.getElementById("modelName");
+        const resultImage = document.getElementById("resultImage");
+        const detectionsBody = document.getElementById("detectionsBody");
+        const errorMessageDiv = document.getElementById("errorMessage");
+        const resultImageContainer = document.getElementById("resultImageContainer");
+
+        // Event Listeners
+        imageInput.addEventListener("change", handleImageSelection);
+        confSlider.addEventListener("input", () => (confValue.textContent = confSlider.value));
+        inferenceForm.addEventListener("submit", handleFormSubmit);
+
+        /**
+         * Handles the selection of a new image file.
+         */
+        function handleImageSelection() {
+            const file = imageInput.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.style.display = "block";
+                resultsPanel.style.display = "none"; // Hide old results
+                errorMessageDiv.style.display = "none"; // Hide old errors
+
+                // Clear previous bounding boxes and labels overlays
+                clearBoundingBoxes();
+            }
+        }
+
+        /**
+         * Handles the form submission for inference.
+         * @param {Event} event - The form submission event.
+         */
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const imageFile = imageInput.files[0];
+            if (!imageFile) {
+                displayError("Please select an image file.");
+                return;
+            }
+
+            setLoadingState(true);
+
+            try {
+                const formData = new FormData(inferenceForm);
+                const response = await fetch("/api/yolo/detect", {
+                    method: "POST",
+                    body: formData,
+                });
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || "An unknown server error occurred.");
+                }
+
+                displayResults(result);
+            } catch (error) {
+                displayError(error.message);
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        /**
+         * Displays the detection results on the page.
+         * @param {object} data - The API response data.
+         */
+        function displayResults(data) {
+            resultsPanel.style.display = "block";
+            errorMessageDiv.style.display = "none";
+
+            modelNameSpan.textContent = data.model_name || "N/A";
+            resultImage.src = `data:image/jpeg;base64,${data.annotated_image}`;
+            resultImage.style.display = "block";
+
+            clearBoundingBoxes();
+
+            detectionsBody.innerHTML = ""; // Clear previous results
+            if (data.detections && data.detections.length > 0) {
+                data.detections.forEach((det) => {
+                    const confidencePercent = (det.confidence * 100).toFixed(1);
+                    const coords = `[${det.x1.toFixed(3)}, ${det.y1.toFixed(3)}, ${det.x2.toFixed(3)}, ${det.y2.toFixed(3)}]`;
+
+                    // Add row to table
+                    const row = detectionsBody.insertRow();
+                    row.innerHTML = `
+                        <td>${det.class_name}</td>
+                        <td>
+                            <div>${confidencePercent}%</div>
+                            <div class="confidence-bar-container">
+                                <div class="confidence-bar" style="width: ${confidencePercent}%;"></div>
+                            </div>
+                        </td>
+                        <td>${coords}</td>
+                    `;
+
+                    // Calculate bounding box position relative to image size
+                    const imgWidth = resultImage.width;
+                    const imgHeight = resultImage.height;
+                    const boxLeft = det.x1 * imgWidth;
+                    const boxTop = det.y1 * imgHeight;
+                    const boxWidth = (det.x2 - det.x1) * imgWidth;
+                    const boxHeight = (det.y2 - det.y1) * imgHeight;
+
+                    // Create bounding box div
+                    const boxDiv = document.createElement("div");
+                    boxDiv.classList.add("bounding-box");
+                    boxDiv.style.left = boxLeft + "px";
+                    boxDiv.style.top = boxTop + "px";
+                    boxDiv.style.width = boxWidth + "px";
+                    boxDiv.style.height = boxHeight + "px";
+
+                    // Create label div
+                    const labelDiv = document.createElement("div");
+                    labelDiv.classList.add("bounding-box-label");
+                    labelDiv.style.left = boxLeft + "px";
+                    labelDiv.style.top = boxTop - 20 + "px"; // Above the box
+                    labelDiv.textContent = `${det.class_name} (${confidencePercent}%)`;
+
+                    resultImageContainer.appendChild(boxDiv);
+                    resultImageContainer.appendChild(labelDiv);
+                });
+            } else {
+                detectionsBody.innerHTML =
+                    '<tr><td colspan="3">No objects were detected.</td></tr>';
+            }
+        }
+
+        /**
+         * Clear all bounding box and label overlays.
+         */
+        function clearBoundingBoxes() {
+            Array.from(
+                resultImageContainer.querySelectorAll(".bounding-box, .bounding-box-label")
+            ).forEach((el) => el.remove());
+        }
+
+        /**
+         * Toggles the UI's loading state.
+         * @param {boolean} isLoading - True to show loading, false to hide.
+         */
+        function setLoadingState(isLoading) {
+            detectButton.disabled = isLoading;
+            loadingIndicator.style.display = isLoading ? "flex" : "none";
+        }
+
+        /**
+         * Displays an error message to the user.
+         * @param {string} message - The error message to display.
+         */
+        function displayError(message) {
+            resultsPanel.style.display = "none";
+            errorMessageDiv.textContent = `Error: ${message}`;
+            errorMessageDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>

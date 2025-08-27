@@ -1,0 +1,80 @@
+# Environment variables and sensitive data
+.env
+.env.local
+.env.*.local
+
+# Google Cloud credentials
+*.json
+!**/example*.json
+service-account*.json
+credentials*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Data directories (optional - uncomment if you want to ignore data)
+# data/images/
+# data/annotations/
+# models/yolo_weights/
+
+# Jupyter Notebooks (optional)
+.ipynb_checkpoints
