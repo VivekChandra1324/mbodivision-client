@@ -21,7 +21,7 @@ setup(
     description="A Python client for interacting with the MbodiVision computer vision API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/VivekChandra1324/mbodivision-client.git",
+    url="https://github.com/VivekChandra1324/mbodivision-client",
     packages=find_packages(include=["client*"]),
 
     python_requires=">=3.8",
@@ -38,6 +38,6 @@ setup(
     },
     
     project_urls={
-        "Repository": "https://github.com/VivekChandra1324/mbodivision-client.git",
+        "Repository": "https://github.com/VivekChandra1324/mbodivision-client",
     },
 )
