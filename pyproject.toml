@@ -29,7 +29,7 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/VivekChandra1324/mbodivision-client.git"
+Repository = "https://github.com/VivekChandra1324/mbodivision-client"
 
 [tool.setuptools.packages.find]
 where = ["."]
