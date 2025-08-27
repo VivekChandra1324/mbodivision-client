@@ -28,11 +28,8 @@ dev = [
     "flake8>=6.0.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/mbodivision/mbodivision-client"
-Documentation = "https://github.com/mbodivision/mbodivision-client#readme"
-Repository = "https://github.com/mbodivision/mbodivision-client.git"
-Issues = "https://github.com/mbodivision/mbodivision-client/issues"
+[project.urls
+Repository = "https://github.com/VivekChandra1324/mbodivision-client.git"
 
 [tool.setuptools.packages.find]
 where = ["."]
