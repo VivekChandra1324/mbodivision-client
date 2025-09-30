@@ -47,20 +47,20 @@ mbodivision-client/
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    MbodiVision MLOps Platform                  │
+│                    MbodiVision MLOps Platform                   │
 ├─────────────────────────────────────────────────────────────────┤
-│  Frontend (Web UI)          │  Backend (FastAPI)              │
-│  ├─ Upload Interface        │  ├─ Data Collection API         │
-│  ├─ Inference Interface     │  ├─ YOLO Service                │
-│  └─ Real-time Feedback      │  └─ Training Pipeline Manager   │
+│  Frontend (Web UI)          │  Backend (FastAPI)                │
+│  ├─ Upload Interface        │  ├─ Data Collection API           │
+│  ├─ Inference Interface     │  ├─ YOLO Service                  │
+│  └─ Real-time Feedback      │  └─ Training Pipeline Manager     │
 ├─────────────────────────────────────────────────────────────────┤
-│  AI Services                 │  Cloud Infrastructure           │
-│  ├─ LLM Verification        │  ├─ Google Cloud Storage        │
-│  ├─ Vertex AI Integration   │  ├─ PostgreSQL Database         │
-│  └─ Model Evaluation        │  └─ Vertex AI Training          │
+│  AI Services                    Cloud Infrastructure            │
+│  ├─ LLM Verification        │  ├─ Google Cloud Storage          │
+│  ├─ Vertex AI Integration   │  ├─ PostgreSQL Database           │
+│  └─ Model Evaluation        │  └─ Vertex AI Training            │
 ├─────────────────────────────────────────────────────────────────┤
-│  Data Flow & Processing                                       │
-│  Image Upload → Validation → Storage → Training → Deployment  │
+│  Data Flow & Processing                                         │
+│  Image Upload → Validation → Storage → Training → Deployment    │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
