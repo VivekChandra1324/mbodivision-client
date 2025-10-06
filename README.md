@@ -8,26 +8,25 @@
 
 MbodiVision Client is a comprehensive, production-ready MLOps platform that democratizes computer vision by providing an end-to-end solution for YOLO object detection. It combines data collection, automated training, model deployment, and inference capabilities in a single, easy-to-use package with both programmatic access and a user-friendly web interface.
 
-## 🌟 **What Makes This Special**
-- **🚀 Zero-Configuration MLOps**: Complete automated training pipeline with no manual intervention
-- **🤖 AI-Powered Data Validation**: Uses Google Vertex AI (Gemini) for intelligent label verification
-- **☁️ Cloud-Native Architecture**: Built for Google Cloud Platform with auto-scaling capabilities
-- **📊 Production-Ready**: Includes monitoring, logging, error handling, and state persistence
-- **🔧 Developer-Friendly**: Clean APIs, comprehensive documentation, and extensive testing
-- **🎯 YOLO-Optimized**: Specialized for YOLO models with automatic dataset conversion and training
+## Key Features
+- **Zero-Configuration MLOps**: Complete automated training pipeline with no manual intervention.
+- **AI-Powered Data Validation**: Uses Google Vertex AI (Gemini) for intelligent label verification.
+- **Cloud-Native Architecture**: Built for Google Cloud Platform with auto-scaling capabilities.
+- **Production-Ready**: Includes monitoring, logging, error handling, and state persistence.
+- **Developer-Friendly**: Clean APIs, comprehensive documentation, and extensive testing.
+- **YOLO-Optimized**: Specialized for YOLO models with automatic dataset conversion and training.
 
-
-## 🏗️ **Project Architecture Overview**
+## Project Architecture Overview
 
 The MbodiVision Client is built with a modular, scalable architecture that separates concerns while maintaining tight integration:
 
 ```
 mbodivision-client/
-├── 📦 mbodivision_client/          # Core Python Package (Installable)
+├── mbodivision_client/             # Core Python Package (Installable)
 │   ├── __init__.py                 # Package initialization & exports
 │   ├── client.py                   # Async HTTP client implementation
 │   └── models.py                   # Pydantic data models & validation
-├── 🌐 app/                         # Full-Featured Web Application
+├── app/                            # Full-Featured Web Application
 │   ├── templates/                  # HTML templates (upload.html, inference.html)
 │   ├── main.py                     # Production FastAPI server
 │   ├── cloud_storage.py            # Google Cloud Storage integration
@@ -35,12 +34,12 @@ mbodivision-client/
 │   ├── yolo_service.py             # YOLO inference service
 │   ├── llm_verification.py         # AI-powered data validation
 │   └── vertex_ai.py                # Google Vertex AI integration
-├── ⚡ simple_web_server.py         # Lightweight demo server
-├── 📚 examples/                    # Developer code examples
-├── 🧪 tests/                       # Test suite
-├── ⚙️ setup.py                     # Package configuration
-├── 📋 requirements.txt             # Dependencies
-└── 📖 README.md                    # This comprehensive guide
+├── simple_web_server.py            # Lightweight demo server
+├── examples/                       # Developer code examples
+├── tests/                          # Test suite
+├── setup.py                        # Package configuration
+├── requirements.txt                # Dependencies
+└── README.md                       # This comprehensive guide
 ```
 
 ### **System Architecture Diagram**
@@ -64,9 +63,9 @@ mbodivision-client/
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 **Quick Start - No Coding Required!**
+## Quick Start 
 
-### **Option 1: Web Interface (Easiest)**
+### Option 1: Web Interface
 
 #### **Step 1: Clone the Repository**
 ```bash
@@ -94,7 +93,6 @@ python simple_web_server.py
 - Open: **http://localhost:8000**
 - **Upload images** with bounding box annotations
 - **Run object detection** with real-time results
-- **No coding required!**
 
 ### **Option 2: Python Client Library**
 
@@ -144,7 +142,7 @@ asyncio.run(main())
 
 
 
-## 🏛️ **Core Components Deep Dive**
+## Core Components Deep Dive
 
 ### **1. Data Collection & Validation (`app/main.py`)**
 - **FastAPI-based REST API** with automatic OpenAPI documentation
@@ -216,46 +214,6 @@ AUTO_START_PIPELINE=true
 YOLO_CONTAINER_URI=gcr.io/project/yolo-training:latest
 ```
 
-## 📚 **API Reference**
-
-### **MbodiVisionClient Methods**
-
-| Method | Description | Parameters | Returns |
-|--------|-------------|------------|---------|
-| `submit_data()` | Submit image with BoundingBox objects | `image_path`, `bounding_boxes`, `conversation` | `DataSubmissionResponse` |
-| `submit_data_with_dict_bbox()` | Submit with dictionary format | `image_path`, `bbox_dict`, `conversation` | `DataSubmissionResponse` |
-| `detect_objects()` | Run object detection | `image_path`, `conf` | `DetectionResult` |
-| `validate_image()` | Check if image is valid | `image_path` | `bool` |
-
-### **Data Models**
-
-#### **BoundingBox**
-```python
-BoundingBox(
-    x1: float,  # Left coordinate (0-1)
-    y1: float,  # Top coordinate (0-1)
-    x2: float,  # Right coordinate (0-1)
-    y2: float,  # Bottom coordinate (0-1)
-    label: str  # Object class name
-)
-```
-
-#### **DataSubmissionResponse**
-```python
-DataSubmissionResponse(
-    submission_id: str,  # Unique identifier
-    message: str         # Status message
-)
-```
-
-#### **DetectionResult**
-```python
-DetectionResult(
-    detections: List[dict],      # Detection results
-    annotated_image: str,        # Base64 encoded image
-    model_name: Optional[str]    # Model used for detection
-)
-```
 
 ### **REST API Endpoints**
 
@@ -299,7 +257,7 @@ Response:
 }
 ```
 
-## 🧪 **Testing & Development**
+## Testing & Development
 
 ### **Quick Tests**
 ```bash
@@ -329,7 +287,7 @@ python app/main.py  # Full featured server
 
 
 
-## 🙏 **Acknowledgments**
+## Acknowledgments
 
 - **Ultralytics** for the YOLO framework
 - **Google Cloud Platform** for cloud infrastructure
